@@ -1,0 +1,8 @@
+{
+  "hostname": "my-nextcloud.com",
+  "port": 8080,
+  "certFile": "/etc/ssl/certs/my-nextcloud.come/fullchain.pem",
+  "keyFile": "/etc/ssl/certs/my-nextcloud.com/privkey.pem",
+  "baseUrl": "https://my-nextcloud.com",
+  "homePath": "/remote.php/dav"
+}

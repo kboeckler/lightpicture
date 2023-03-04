@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: Lightpicture 1.0
+  description: |-
+    This service works as a proxy service to retrieve images from a webdav server. This proxy is intended to run on the same network or machine as the webdav endpoint. Now, instead of requesting potentially large images from the webdav api, just call this proxy service _lightpicture_ to handle conversion and compression on the server side.
+  contact:
+    email: dev@kevinboeckler.de
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: See Github
+  url: https://github.com/kboeckler/lightpicture
+servers:
+  - url: http://localhost:8080
+paths:
+  /{file}:
+    get:
+      summary: Reads an image
+      description: Reads the requested image and converts it into a lighter one. If no width or height query values are provided, the image will be bound to 1280x720.
+      operationId: readPicture
+      parameters:
+        - name: file
+          in: path
+          description: resource path to the requested image file
+          example: Bilder/Wallpaper01.png
+          required: true
+          schema:
+            type: string
+        - name: width
+          in: query
+          description: sets the max width of the result image
+          example: 1280
+          required: false
+          schema:
+            type: integer
+        - name: height
+          in: query
+          description: sets the max height of the result image
+          example: 720
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: the image in jpeg base64
+        '401':
+          description: Missing Base Authentication
+        '404':
+          description: Resource not found
+        '500':
+          description: Reading or converting went wrong - see the logfile
+      security:
+        - basicAuth: [ ]
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+security:
+  - basicAuth: [ ]
